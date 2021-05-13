@@ -8,18 +8,18 @@ function Ticker() {
 
   const updatePrice = () => {
     const timeDiff = Date.now()-state.lastTickerTime;
-    if (!state.tickerIsFetching && timeDiff > state.ticker_frequency) {
+    if (!state.tickerIsFetching && timeDiff > state.config.ticker_price_frequency) {
       dispatch({ type: "SET_TICKER_FETCHING" });
       axios.get(
         'https://api.coingecko.com/api/v3/simple/price', {
           params: {
-            ids: state.ticker_primary,
-            vs_currencies: state.ticker_secondary
+            ids: state.config.ticker_primary,
+            vs_currencies: state.config.ticker_secondary
           }
         }).then((response) => {
         if (response.status === 200) {
           dispatch({ type: "SET_COIN_VALUE", payload: {
-            value: response.data[state.ticker_primary][state.ticker_secondary]
+            value: response.data[state.config.ticker_primary][state.config.ticker_secondary]
           } });
         }
       });
@@ -28,7 +28,7 @@ function Ticker() {
 
   useEffect(() => {
     updatePrice();
-    setTimeout(updatePrice, state.ticker_frequency);
+    setTimeout(updatePrice, state.config.ticker_price_frequency);
   });
 
 

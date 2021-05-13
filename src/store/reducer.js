@@ -13,14 +13,17 @@ const Reducer = (state, action) => {
         case "SET_CONFIG":
             return {
                 ...state,
-                ticker_primary: action.payload.ticker_primary,
-                ticker_secondary: action.payload.ticker_secondary,
-                ticker_frequency: action.payload.ticker_frequency,
+                config: {
+                    ...state.config,
+                    ticker_primary: action.payload.ticker_primary,
+                    ticker_secondary: action.payload.ticker_secondary,
+                    ticker_price_frequency: action.payload.ticker_price_frequency,
+                    ticker_config_frequency: action.payload.ticker_config_frequency
+                },
                 lastConfigTime: Date.now(),
                 configIsFetching: false
             }
         case "SET_COIN_VALUE":
-            console.log(action);
             return {
                 ...state,
                 value: action.payload.value,

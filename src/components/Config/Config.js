@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import ConfigOption from "./ConfigOption/ConfigOption.js";
 import './Config.scss';
 
 function Config() {
 
-  const fields = ['ticker_primary', 'ticker_secondary', 'ticker_frequency'];
+  const fields = ['ticker_primary', 'ticker_secondary', 'ticker_price_frequency'];
 
   return (
     <div className="Config">

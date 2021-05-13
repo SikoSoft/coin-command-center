@@ -2,13 +2,16 @@ import React, { createContext, useReducer } from "react";
 import Reducer from "./reducer";
 
 const initialState = {
-    primaryCurrency: 'dogecoin',
-    secondaryCurrency: 'usd',
+    config: {
+        ticker_primary: 'dogecoin',
+        ticker_secondary: 'usd',
+        ticker_price_frequency: 60000,
+        ticker_config_frequency: 60000,
+    },
     value: 0,
     symbol: '$',
     lastConfigTime: 0,
     lastTickerTime: 0,
-    tickerFrequency: 60000,
     tickerIsFetching: false,
     configIsFetching: false,
     history: {}
