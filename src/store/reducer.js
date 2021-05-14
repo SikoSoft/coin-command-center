@@ -1,4 +1,5 @@
 const Reducer = (state, action) => {
+    //console.log("REDUCER", action);
     switch (action.type) {
         case "SET_TICKER_FETCHING":
             return {
