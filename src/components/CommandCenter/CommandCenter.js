@@ -9,34 +9,38 @@ import Config from "../Config/Config.js"
 import { Context } from "../../store/";
 import './CommandCenter.scss';
 
-function App() {
+function CommandCenter() {
 
   const [ state, dispatch ] = useContext(Context);
 
   const getConfig = () => {
-    const timeDiff = Date.now()-state.lastConfigTime;
-    if (!state.configIsFetching && timeDiff > state.config.ticker_config_frequency) {
+    const {lastConfigTime, config, configIsFetching} = state;
+    const timeDiff = Date.now()-lastConfigTime;
+    //console.log("getConfig", configIsFetching, timeDiff, config.ticker_config_frequency);
+    if (!configIsFetching && timeDiff > config.ticker_config_frequency) {
+        //console.log('proceed with request');
         dispatch({ type: "SET_CONFIG_FETCHING" });
         axios.get(`${process.env.REACT_APP_API_BASE}/getCryptoConfig`).then((response) => {
             if (response.status === 200) {
                 dispatch({ type: "SET_CONFIG", payload: response.data });
+                setTimeout(getConfig, state.config.ticker_config_frequency);
             }
         });
     }
   };
 
   useEffect(() => {
-   getConfig();
-   setTimeout(getConfig, state.config.ticker_config_frequency);
+    //console.log('useEffect');
+    getConfig();
   });
 
   return (
       <Router>
         <div className="CommandCenter">
-            <Route path="/ticker">
+            <Route path={process.env.REACT_APP_BASE_PATH+'/ticker'}>
                 {state.lastConfigTime > 0 && <Ticker />}
             </Route>
-            <Route path="/config">
+            <Route path={process.env.REACT_APP_BASE_PATH+'/config'}>
                 {state.lastConfigTime > 0 && <Config />}
             </Route>
         </div>
@@ -44,4 +48,4 @@ function App() {
   );
 }
 
-export default App;
+export default CommandCenter;
