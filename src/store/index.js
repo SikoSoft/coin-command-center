@@ -16,7 +16,8 @@ const initialState = {
     configIsFetching: false,
     shouldUpdateTicker: true,
     shouldUpdateConfig: true,
-    history: {}
+    history: {},
+    authToken: ''
 }
 
 export const StoreContext = React.createContext(initialState);

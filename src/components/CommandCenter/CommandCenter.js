@@ -37,12 +37,16 @@ function CommandCenter() {
     if (state.shouldUpdateConfig) {
       getConfig();
     }
+    const storageAuthToken = localStorage.getItem('authToken');
+    if (storageAuthToken && state.authToken !== storageAuthToken) {
+      dispatch({ type: 'SET_AUTH_TOKEN', payload: { authToken: storageAuthToken ? storageAuthToken : ''} });
+    }
   });
 
   return (
       <Router>
         <div className="CommandCenter">
-            <Debug />
+            {process.env.NODE_ENV !== 'production' && <Debug />}
             <Route path={process.env.REACT_APP_BASE_PATH+'/ticker'}>
                 {state.lastConfigTime > 0 && <Ticker />}
             </Route>

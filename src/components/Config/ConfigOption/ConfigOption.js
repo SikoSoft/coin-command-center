@@ -6,13 +6,17 @@ import './ConfigOption.scss';
 function ConfigOption({ name }) {
   const [ state ] = useContext(StoreContext);
 
-  let newValue = state[name];
+  let newValue = state.config[name];
 
   const save = () => {
     axios.post(
         `${process.env.REACT_APP_API_BASE}/updateCryptoConfig`, {
-            name: name,
-            value: newValue
+          name: name,
+          value: newValue
+        }, {
+          headers: {
+            'x-functions-key': state.authToken
+          }
         }
     ).then((response) => {
 

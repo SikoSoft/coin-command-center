@@ -1,9 +1,9 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { StoreContext } from "../../store/";
 import './Debug.scss';
 
 function Debug() {
-  const [ state, dispatch ] = useContext(StoreContext);
+  const [ dispatch ] = useContext(StoreContext);
 
 
 

@@ -42,6 +42,11 @@ const Reducer = (state, action) => {
                 lastTickerTime: Date.now(),
                 tickerIsFetching: false
             };
+        case "SET_AUTH_TOKEN":
+            return {
+                ...state,
+                authToken: action.payload.authToken
+            };
         default:
             return state;
     }
