@@ -1,12 +1,12 @@
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { StoreContext } from "../../../store/";
 import './ConfigOption.scss';
 
 function ConfigOption({ name }) {
-  const [ state ] = useContext(StoreContext);
+  const [ state, dispatch ] = useContext(StoreContext);
 
-  let newValue = state.config[name];
+  const [newValue, setNewValue] = useState(state.config[name]);
 
   const save = () => {
     axios.post(
@@ -19,22 +19,18 @@ function ConfigOption({ name }) {
           }
         }
     ).then((response) => {
-
+      dispatch({ type: "SET_CONFIG_OPTION", payload: { name, value: newValue } })
     });
   };
 
   const update = (e) => {
-      newValue = e.target.value;
+      setNewValue(e.target.value);
   }
 
   return (
-    <div className="Config">
-      <div className="Config__fields_container">
-        <div className="Config__option">
-            <input className="Config__option_input" type="text" placeholder={name} defaultValue={state.config[name]} onChange={update}/>
-            <button className="Config__option_save" type="button" onClick={save}>save</button>
-        </div>
-      </div>
+    <div className={`ConfigOption ${state.config[name] !== newValue ? 'ConfigOption--unsaved' : ''}`}>
+        <input className="ConfigOption__input" type="text" placeholder={name} defaultValue={state.config[name]} onChange={update}/>
+        <button className="ConfigOption__save" type="button" onClick={save}>save</button>
     </div>
   );
 }

@@ -35,6 +35,14 @@ const Reducer = (state, action) => {
                 lastConfigTime: Date.now(),
                 configIsFetching: false
             }
+        case "SET_CONFIG_OPTION":
+            return {
+                ...state,
+                config: {
+                    ...state.config,
+                    [action.payload.name]: action.payload.value 
+                }
+            };
         case "SET_COIN_VALUE":
             return {
                 ...state,
