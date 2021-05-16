@@ -6,6 +6,8 @@ import './Ticker.scss';
 function Ticker() {
   const [ state, dispatch ] = useContext(StoreContext);
   const [ tickerTimeout, setTickerTimeout ] = useState(null);
+  const [ changeClass, setChangeClass ] = useState(null);
+  const [ lastPrice, setLastPrice ] = useState(null);
 
   const updatePrice = async () => {
     if (!state.tickerIsFetching) {
@@ -21,16 +23,27 @@ function Ticker() {
           }
         }).then(async (response) => {
         if (response.status === 200) {
+          const price = response.data[state.config.ticker_primary][state.config.ticker_secondary];
           dispatch({ type: "SET_COIN_VALUE", payload: {
-            value: response.data[state.config.ticker_primary][state.config.ticker_secondary]
+            value: price
           } });
+          if (lastPrice) {
+            if (price > lastPrice) {
+              setChangeClass("Ticker__price--up");
+            } else {
+              setChangeClass("Ticker__price--down");
+            }
+          }
+          setTimeout(() => {
+            setChangeClass("");
+          }, 5000);
+          setLastPrice(price);
           setTickerTimeout(setTimeout(() => {
             dispatch({ type: "SET_TICKER_FOR_UPDATE" });
           }, state.config.ticker_price_frequency));
         }
       });
     }
-
   };
 
   useEffect(() => {
@@ -43,7 +56,7 @@ function Ticker() {
   return (
     <div className="Ticker">
       <div className="Ticker__price_container">
-        <div className="Ticker__price">
+        <div className={`Ticker__price ${changeClass}`}>
           <span className="Ticker__symbol">{ state.symbol }</span>
           <span className="Ticker__value">{ state.value }</span>
         </div>
