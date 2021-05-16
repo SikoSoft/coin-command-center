@@ -1,15 +1,26 @@
 const Reducer = (state, action) => {
-    //console.log("REDUCER", action);
     switch (action.type) {
         case "SET_TICKER_FETCHING":
             return {
                 ...state,
-                tickerIsFetching: true
+                tickerIsFetching: true,
+                shouldUpdateTicker: false,
             }
         case "SET_CONFIG_FETCHING":
             return {
                 ...state,
-                configIsFetching: true
+                configIsFetching: true,
+                shouldUpdateConfig: false
+            };
+        case "SET_TICKER_FOR_UPDATE":
+            return {
+                ...state,
+                shouldUpdateTicker: true
+            };
+        case "SET_CONFIG_FOR_UPDATE":
+            return {
+                ...state,
+                shouldUpdateConfig: true
             };
         case "SET_CONFIG":
             return {

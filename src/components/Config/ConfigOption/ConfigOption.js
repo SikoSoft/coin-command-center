@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useContext } from "react";
-import { Context } from "../../../store/";
+import { StoreContext } from "../../../store/";
 import './ConfigOption.scss';
 
 function ConfigOption({ name }) {
-  const [ state ] = useContext(Context);
+  const [ state ] = useContext(StoreContext);
 
   let newValue = state[name];
 

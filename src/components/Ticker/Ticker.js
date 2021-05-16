@@ -1,36 +1,42 @@
 import axios from "axios";
-import React, { useEffect, useContext } from "react";
-import { Context } from "../../store/";
+import React, { useEffect, useContext, useState } from "react";
+import { StoreContext } from "../../store/";
 import './Ticker.scss';
 
 function Ticker() {
-  const [ state, dispatch ] = useContext(Context);
+  const [ state, dispatch ] = useContext(StoreContext);
+  const [ tickerTimeout, setTickerTimeout ] = useState(null);
 
-  const updatePrice = () => {
-    //console.log("updatePrice", state.config);
-    const timeDiff = Date.now()-state.lastTickerTime;
-    if (!state.tickerIsFetching && timeDiff > state.config.ticker_price_frequency) {
+  const updatePrice = async () => {
+    if (!state.tickerIsFetching) {
       dispatch({ type: "SET_TICKER_FETCHING" });
-      //console.log("making COINGECKO request...", state.config.ticker_primary);
+      if (tickerTimeout) {
+        clearTimeout(tickerTimeout);
+      }
       axios.get(
         'https://api.coingecko.com/api/v3/simple/price', {
           params: {
             ids: state.config.ticker_primary,
             vs_currencies: state.config.ticker_secondary
           }
-        }).then((response) => {
+        }).then(async (response) => {
         if (response.status === 200) {
           dispatch({ type: "SET_COIN_VALUE", payload: {
             value: response.data[state.config.ticker_primary][state.config.ticker_secondary]
           } });
-          setTimeout(updatePrice, state.config.ticker_price_frequency);
+          setTickerTimeout(setTimeout(() => {
+            dispatch({ type: "SET_TICKER_FOR_UPDATE" });
+          }, state.config.ticker_price_frequency));
         }
       });
     }
-  }
+
+  };
 
   useEffect(() => {
-    updatePrice();
+    if (state.shouldUpdateTicker) {
+      updatePrice();
+    }
   });
 
 

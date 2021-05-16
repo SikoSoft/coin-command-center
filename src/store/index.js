@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React from "react";
 import Reducer from "./reducer";
 
 const initialState = {
@@ -14,18 +14,21 @@ const initialState = {
     lastTickerTime: 0,
     tickerIsFetching: false,
     configIsFetching: false,
+    shouldUpdateTicker: true,
+    shouldUpdateConfig: true,
     history: {}
 }
 
+export const StoreContext = React.createContext(initialState);
+
 const Store = ({ children }) => {
-    const [state, dispatch] = useReducer(Reducer, initialState);
+    const [state, dispatch] = React.useReducer(Reducer, initialState);
 
     return (
-        <Context.Provider value={[state, dispatch]}>
+        <StoreContext.Provider value={[state, dispatch]}>
             {children}
-        </Context.Provider>
+        </StoreContext.Provider>
     )
 };
 
-export const Context = createContext(initialState);
 export default Store;
