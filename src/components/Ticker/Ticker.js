@@ -54,7 +54,7 @@ function Ticker() {
 
 
   return (
-    <div className="Ticker">
+    <div className="Ticker" style={{backgroundImage: `url('img/${state.config.ticker_primary}.png')`}}>
       <div className="Ticker__price_container">
         <div className={`Ticker__price ${changeClass}`}>
           <span className="Ticker__symbol">{ state.symbol }</span>
