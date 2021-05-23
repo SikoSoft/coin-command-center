@@ -4,7 +4,7 @@ import './Config.scss';
 
 function Config() {
 
-  const fields = ['ticker_primary', 'ticker_secondary', 'ticker_price_frequency'];
+  const fields = ['ticker_primary', 'ticker_secondary', 'ticker_price_frequency', 'ticker_alternate_frequency'];
 
   return (
     <div className="Config">

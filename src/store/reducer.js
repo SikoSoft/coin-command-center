@@ -17,6 +17,16 @@ const Reducer = (state, action) => {
                 ...state,
                 shouldUpdateTicker: true
             };
+        case "SET_TICKER_FOR_ALTERNATE":
+            return {
+                ...state,
+                shouldAlternateTicker: action.payload.shouldAlternate
+            }
+        case "SET_TICKER_PRICES":
+            return {
+                ...state,
+                tickerPrices: action.payload.tickerPrices
+            };
         case "SET_CONFIG_FOR_UPDATE":
             return {
                 ...state,
@@ -30,7 +40,8 @@ const Reducer = (state, action) => {
                     ticker_primary: action.payload.ticker_primary,
                     ticker_secondary: action.payload.ticker_secondary,
                     ticker_price_frequency: action.payload.ticker_price_frequency,
-                    ticker_config_frequency: action.payload.ticker_config_frequency
+                    ticker_config_frequency: action.payload.ticker_config_frequency,
+                    ticker_alternate_frequency: action.payload.ticker_alternate_frequency
                 },
                 lastConfigTime: Date.now(),
                 configIsFetching: false

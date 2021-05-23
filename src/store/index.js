@@ -7,7 +7,11 @@ const initialState = {
         ticker_secondary: 'usd',
         ticker_price_frequency: 60000,
         ticker_config_frequency: 60000,
+        ticker_alternate_frequency: 10000
     },
+    tickerPrimaryActive: '',
+    tickerSecondaryActive: 'usd',
+    tickerPrices: null,
     value: 0,
     symbol: '$',
     lastConfigTime: 0,
@@ -16,6 +20,7 @@ const initialState = {
     configIsFetching: false,
     shouldUpdateTicker: true,
     shouldUpdateConfig: true,
+    shouldAlternateTicker: false,
     history: {},
     authToken: ''
 }
