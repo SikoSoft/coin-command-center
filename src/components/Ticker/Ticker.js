@@ -7,7 +7,7 @@ function Ticker() {
   const [ state, dispatch ] = useContext(StoreContext);
   const [ tickerTimeout, setTickerTimeout ] = useState(null);
   const [ changeClass, setChangeClass ] = useState(null);
-  const [ lastPrice, setLastPrice ] = useState(null);
+  const [ lastPrice, setLastPrice ] = useState({});
   const [ primary, setPrimary ] = useState(null);
   const [ secondary ] = useState('usd');
   const [ alternateTimeout, setAlternateTimeout ] = useState(null);
@@ -71,8 +71,8 @@ function Ticker() {
     dispatch({ type: "SET_COIN_VALUE", payload: {
       value: price
     } });
-    if (lastPrice) {
-      if (price > lastPrice) {
+    if (lastPrice[nextPrimary]) {
+      if (price > lastPrice[nextPrimary]) {
         setChangeClass("Ticker__price--up");
       } else {
         setChangeClass("Ticker__price--down");
@@ -81,7 +81,7 @@ function Ticker() {
     setTimeout(() => {
       setChangeClass("");
     }, 5000);
-    setLastPrice(price);
+    setLastPrice({ ...lastPrice, [nextPrimary]: price });
     dispatch({ type: "SET_TICKER_FOR_ALTERNATE", payload: { shouldAlternate: false } });
     setAlternateTimeout(setTimeout(() => {
       dispatch({ type: "SET_TICKER_FOR_ALTERNATE", payload: { shouldAlternate: true } });
