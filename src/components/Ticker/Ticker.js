@@ -3,6 +3,8 @@ import React, { useEffect, useContext, useState } from "react";
 import { StoreContext } from "../../store/";
 import './Ticker.scss';
 
+const animationDuration = 1000;
+
 function Ticker() {
   const [ state, dispatch ] = useContext(StoreContext);
   const [ tickerTimeout, setTickerTimeout ] = useState(null);
@@ -11,6 +13,7 @@ function Ticker() {
   const [ primary, setPrimary ] = useState(null);
   const [ secondary ] = useState('usd');
   const [ alternateTimeout, setAlternateTimeout ] = useState(null);
+  const [ animationClass, setAnimationClass ] = useState(null);
 
   const updatePrice = async () => {
     if (!state.tickerIsFetching) {
@@ -53,6 +56,7 @@ function Ticker() {
   };
 
   const alternate = () => {
+    console.log('alternate');
     const nextPrimary = getNextPrimary();
     setPrimary(nextPrimary);
     if (!nextPrimary) {
@@ -83,6 +87,13 @@ function Ticker() {
     }, 5000);
     setLastPrice({ ...lastPrice, [nextPrimary]: price });
     dispatch({ type: "SET_TICKER_FOR_ALTERNATE", payload: { shouldAlternate: false } });
+    setAnimationClass('Ticker--in');
+    setTimeout(() => {
+      setAnimationClass('');
+    }, animationDuration);
+    setTimeout(() => {
+      setAnimationClass('Ticker--out');
+    }, state.config.ticker_alternate_frequency-animationDuration);
     setAlternateTimeout(setTimeout(() => {
       dispatch({ type: "SET_TICKER_FOR_ALTERNATE", payload: { shouldAlternate: true } });
     }, state.config.ticker_alternate_frequency));
@@ -99,11 +110,13 @@ function Ticker() {
 
 
   return (
-    <div className="Ticker" style={{backgroundImage: `url('img/${primary}.png')`}}>
-      <div className="Ticker__price_container">
-        <div className={`Ticker__price ${changeClass}`}>
-          <span className="Ticker__symbol">{ state.symbol }</span>
-          <span className="Ticker__value">{ state.value }</span>
+    <div className={`Ticker ${animationClass ? animationClass : ''}`} style={{backgroundImage: `url('img/${primary}.png')`}}>
+      <div className="Ticker__logo">
+        <div className="Ticker__price_container">
+          <div className={`Ticker__price ${changeClass}`}>
+            <span className="Ticker__symbol">{ state.symbol }</span>
+            <span className="Ticker__value">{ state.value }</span>
+          </div>
         </div>
       </div>
     </div>
