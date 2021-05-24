@@ -3,7 +3,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { StoreContext } from "../../store/";
 import './Ticker.scss';
 
-const animationDuration = 1000;
+const animationDuration = 750;
 
 function Ticker() {
   const [ state, dispatch ] = useContext(StoreContext);
@@ -56,7 +56,6 @@ function Ticker() {
   };
 
   const alternate = () => {
-    console.log('alternate');
     const nextPrimary = getNextPrimary();
     setPrimary(nextPrimary);
     if (!nextPrimary) {
@@ -110,14 +109,13 @@ function Ticker() {
 
 
   return (
-    <div className={`Ticker ${animationClass ? animationClass : ''}`} style={{backgroundImage: `url('img/${primary}.png')`}}>
-      <div className="Ticker__logo">
-        <div className="Ticker__price_container">
-          <div className={`Ticker__price ${changeClass}`}>
-            <span className="Ticker__symbol">{ state.symbol }</span>
-            <span className="Ticker__value">{ state.value }</span>
-          </div>
-        </div>
+    <div className={`Ticker ${animationClass ? animationClass : ''}`}>
+      <div className="Ticker__logo" style={{backgroundImage: `url('img/${primary}.png')`}}></div>
+      <div className="Ticker__price_container">
+        <div className={`Ticker__price ${changeClass}`}>
+          <span className="Ticker__symbol">{ state.symbol }</span>
+          <span className="Ticker__value">{ state.value }</span>
+      </div>
       </div>
     </div>
   );
