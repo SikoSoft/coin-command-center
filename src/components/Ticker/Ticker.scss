@@ -2,11 +2,11 @@
   height: 100%;
   position: relative;
   opacity: 1;
-  transition: all 1s;
+  transition: all 0.5s;
 
   &--in {
     animation-name: animateIn;
-    animation-duration: 0.75s;
+    animation-duration: 0.5s;
     opacity: 1;
 
     .Ticker__logo {
@@ -16,7 +16,7 @@
 
   &--out {
     animation-name: animateOut;
-    animation-duration: 0.75s;
+    animation-duration: 0.5s;
     opacity: 0;
 
     .Ticker__logo {

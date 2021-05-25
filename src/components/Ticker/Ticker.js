@@ -3,7 +3,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { StoreContext } from "../../store/";
 import './Ticker.scss';
 
-const animationDuration = 750;
+const animationDuration = 500;
 
 function Ticker() {
   const [ state, dispatch ] = useContext(StoreContext);
